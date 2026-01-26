@@ -293,7 +293,6 @@ p, .lead, .muted { max-width: 70ch; margin-left: auto; margin-right: auto; }
 }
 
 .method-list li .glassy-chip { margin-right: 0.5rem; }
-
 .card-slab {
   border: 1px solid var(--border);
   border-radius: var(--radius);
