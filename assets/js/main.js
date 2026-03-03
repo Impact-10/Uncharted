@@ -1,6 +1,17 @@
-// Minimal interactions: tab switching, reveals, mock submission
+// Minimal interactions: tab switching, reveals, real Firebase submission
 (() => {
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const firebaseConfig = {
+    apiKey: 'AIzaSyCHSpjDTATv3pm-zSTkMCtne3BRJJmbeKo',
+    authDomain: 'uncharted-club.firebaseapp.com',
+    projectId: 'uncharted-club',
+    storageBucket: 'uncharted-club.firebasestorage.app',
+    messagingSenderId: '585681204894'
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const firestore = firebase.firestore();
 
   // Reveal-on-scroll with reduced motion guard
   const revealElements = document.querySelectorAll('.reveal');
@@ -53,15 +64,41 @@
     btn.addEventListener('click', () => showTab(btn.dataset.switchTo));
   });
 
-  // Mock submission with native validation
+  // Firestore submission with native validation
   const form = document.getElementById('apply-form');
   const submitBtn = document.getElementById('submit-mock');
   const successNote = document.querySelector('.success-note');
 
   if (form && submitBtn) {
-    submitBtn.addEventListener('click', () => {
+    submitBtn.addEventListener('click', async () => {
       if (!form.reportValidity()) return;
-      successNote?.removeAttribute('hidden');
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+      successNote?.setAttribute('hidden', '');
+
+      try {
+        const formData = new FormData(form);
+        const payload = {
+          ...Object.fromEntries(
+            Array.from(formData.entries()).map(([key, value]) => [
+              key,
+              (value || '').toString().trim()
+            ])
+          ),
+          submittedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        await firestore.collection('form').add(payload);
+        form.reset();
+        successNote?.removeAttribute('hidden');
+      } catch (error) {
+        alert('Submission failed. Please try again in a moment.');
+        console.error('Firestore submit error:', error);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Application';
+      }
     });
   }
 })();

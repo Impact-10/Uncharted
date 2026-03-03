@@ -53,7 +53,7 @@
           </div>
 
           <div class="col-lg-7">
-            <form class="form-card" novalidate>
+            <form id="apply-form" class="form-card" novalidate>
               <div class="row g-3">
                 <div class="col-md-6">
                   <label class="form-label" for="fullName">Full name</label>
@@ -74,6 +74,10 @@
                   <div id="experienceHelp" class="form-text">Numbers or text are accepted.</div>
                 </div>
                 <div class="col-md-6">
+                  <label class="form-label" for="whatsapp">Phone / WhatsApp Number</label>
+                  <input class="form-control" id="whatsapp" name="whatsapp" type="tel" placeholder="+60 ..." required pattern="[+0-9\s()-]{7,20}">
+                </div>
+                <div class="col-md-6">
                   <label class="form-label" for="profile">TradingView/IG profile (optional)</label>
                   <input class="form-control" id="profile" name="profile" type="url" placeholder="https://">
                 </div>
@@ -82,9 +86,9 @@
                   <input class="form-control" id="timezone" name="timezone" type="text" placeholder="e.g., GMT+5:30" required>
                 </div>
                 <div class="col-12">
-                  <button class="btn btn-light w-100" type="button">Submit (mock)</button>
-                  <p class="muted small mt-2 mb-0">This form is UI-only for now. A real submission endpoint will be added later.</p>
-                  <div class="pill mt-3">Thanks. We reply within 24 hours.</div>
+                  <button class="btn btn-light w-100" type="button" id="submit-mock">Submit Application</button>
+                  <p class="muted small mt-2 mb-0">Your application is submitted securely to our database.</p>
+                  <div class="success-note mt-3" role="status" aria-live="polite" hidden>Thanks. We reply within 24 hours if there is a fit.</div>
                 </div>
               </div>
             </form>
@@ -126,6 +130,8 @@
     </div>
   </footer>
 
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore-compat.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>

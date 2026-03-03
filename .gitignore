@@ -1,0 +1,7 @@
+# Root secret guards
+mobile-app/google-services.json
+mobile-app/google-service.json
+mobile-app/service-account.json
+mobile-app/service-accounts.json
+mobile-app/*.service-account.json
+mobile-app/android/app/google-services.json
