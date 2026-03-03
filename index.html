@@ -195,15 +195,15 @@
                 <div class="row g-3">
                   <div class="col-md-6">
                     <label class="form-label" for="fullName">Full Name</label>
-                    <input class="form-control" id="fullName" name="fullName" type="text" placeholder="Your name" required minlength="2">
+                    <input class="form-control" id="fullName" name="fullName" type="text" placeholder="Your name" required minlength="2" maxlength="120">
                   </div>
                   <div class="col-md-6">
                     <label class="form-label" for="email">Email Address</label>
-                    <input class="form-control" id="email" name="email" type="email" placeholder="you@example.com" required>
+                    <input class="form-control" id="email" name="email" type="email" placeholder="you@example.com" required maxlength="180">
                   </div>
                   <div class="col-md-6">
                     <label class="form-label" for="whatsapp">WhatsApp Number (with country code)</label>
-                    <input class="form-control" id="whatsapp" name="whatsapp" type="tel" placeholder="+60 ..." required pattern="[+0-9\s()-]{7,20}">
+                    <input class="form-control" id="whatsapp" name="whatsapp" type="tel" placeholder="+60 ..." required pattern="[+0-9\s()-]{7,20}" maxlength="20">
                   </div>
                   <div class="col-md-6">
                     <label class="form-label" for="experience">How long have you been trading?</label>
@@ -218,15 +218,15 @@
                   </div>
                   <div class="col-12">
                     <label class="form-label" for="challenge">What is your biggest challenge in trading right now?</label>
-                    <textarea class="form-control" id="challenge" name="challenge" rows="3" placeholder="Be specific" required></textarea>
+                    <textarea class="form-control" id="challenge" name="challenge" rows="3" placeholder="Be specific" required minlength="10" maxlength="1200"></textarea>
                   </div>
                   <div class="col-12">
                     <label class="form-label" for="attempts">What have you tried so far, and why hasn’t it worked?</label>
-                    <textarea class="form-control" id="attempts" name="attempts" rows="3" placeholder="Share what you've tested"></textarea>
+                    <textarea class="form-control" id="attempts" name="attempts" rows="3" placeholder="Share what you've tested" maxlength="1200"></textarea>
                   </div>
                   <div class="col-12">
                     <label class="form-label" for="success">If we spoke 12 months from now, what would success look like for you?</label>
-                    <textarea class="form-control" id="success" name="success" rows="3" placeholder="Describe your target state"></textarea>
+                    <textarea class="form-control" id="success" name="success" rows="3" placeholder="Describe your target state" maxlength="1200"></textarea>
                   </div>
                   <div class="col-12">
                     <label class="form-label" for="commitment">Are you willing to invest time and capital into mentorship?</label>
@@ -238,6 +238,7 @@
                     </select>
                   </div>
                   <div class="col-12">
+                    <input type="text" name="companyWebsite" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
                     <button class="btn ghost w-100" type="button" id="submit-mock">Submit Application</button>
                     <p class="muted small mt-2 mb-0">Your application is submitted securely to our database.</p>
                     <div class="success-note" role="status" aria-live="polite" hidden>Thanks. We reply within 24 hours if there is a fit.</div>

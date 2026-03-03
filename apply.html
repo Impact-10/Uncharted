@@ -57,16 +57,16 @@
               <div class="row g-3">
                 <div class="col-md-6">
                   <label class="form-label" for="fullName">Full name</label>
-                  <input class="form-control" id="fullName" name="fullName" type="text" placeholder="Your name" required pattern="[A-Za-z\s]{2,}" aria-describedby="nameHelp">
+                  <input class="form-control" id="fullName" name="fullName" type="text" placeholder="Your name" required pattern="[A-Za-z\s]{2,}" maxlength="120" aria-describedby="nameHelp">
                   <div id="nameHelp" class="form-text">Letters only.</div>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label" for="email">Email</label>
-                  <input class="form-control" id="email" name="email" type="email" placeholder="you@example.com" required>
+                  <input class="form-control" id="email" name="email" type="email" placeholder="you@example.com" required maxlength="180">
                 </div>
                 <div class="col-12">
                   <label class="form-label" for="why">Why MSNR?</label>
-                  <textarea class="form-control" id="why" name="why" rows="3" placeholder="Share your reasoning" required></textarea>
+                  <textarea class="form-control" id="why" name="why" rows="3" placeholder="Share your reasoning" required minlength="10" maxlength="1200"></textarea>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label" for="experience">Trading experience</label>
@@ -75,7 +75,7 @@
                 </div>
                 <div class="col-md-6">
                   <label class="form-label" for="whatsapp">Phone / WhatsApp Number</label>
-                  <input class="form-control" id="whatsapp" name="whatsapp" type="tel" placeholder="+60 ..." required pattern="[+0-9\s()-]{7,20}">
+                  <input class="form-control" id="whatsapp" name="whatsapp" type="tel" placeholder="+60 ..." required pattern="[+0-9\s()-]{7,20}" maxlength="20">
                 </div>
                 <div class="col-md-6">
                   <label class="form-label" for="profile">TradingView/IG profile (optional)</label>
@@ -86,6 +86,7 @@
                   <input class="form-control" id="timezone" name="timezone" type="text" placeholder="e.g., GMT+5:30" required>
                 </div>
                 <div class="col-12">
+                  <input type="text" name="companyWebsite" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
                   <button class="btn btn-light w-100" type="button" id="submit-mock">Submit Application</button>
                   <p class="muted small mt-2 mb-0">Your application is submitted securely to our database.</p>
                   <div class="success-note mt-3" role="status" aria-live="polite" hidden>Thanks. We reply within 24 hours if there is a fit.</div>

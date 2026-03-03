@@ -69,6 +69,66 @@
   const submitBtn = document.getElementById('submit-mock');
   const successNote = document.querySelector('.success-note');
 
+  const sanitizeText = (value, maxLength = 500) => {
+    return (value || '')
+      .toString()
+      .replace(/[<>]/g, '')
+      .trim()
+      .slice(0, maxLength);
+  };
+
+  const normalizePhone = (value) => {
+    const cleaned = sanitizeText(value, 30).replace(/[^+0-9()\s-]/g, '');
+    return cleaned;
+  };
+
+  const validEmail = (value) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value);
+  const validPhone = (value) => /^[+0-9\s()-]{7,20}$/.test(value);
+
+  const buildPayload = (formData) => {
+    const raw = Object.fromEntries(
+      Array.from(formData.entries()).map(([key, value]) => [key, sanitizeText(value)])
+    );
+
+    const mappedChallenge = sanitizeText(raw.challenge || raw.why, 1200);
+    const mappedPhone = normalizePhone(raw.phone || raw.whatsapp || raw.whatsApp);
+
+    const payload = {
+      type: 'application',
+      fullName: sanitizeText(raw.fullName, 120),
+      email: sanitizeText(raw.email, 180).toLowerCase(),
+      phone: mappedPhone,
+      whatsapp: mappedPhone,
+      experience: sanitizeText(raw.experience, 120),
+      challenge: mappedChallenge,
+      attempts: sanitizeText(raw.attempts, 1200),
+      success: sanitizeText(raw.success, 1200),
+      commitment: sanitizeText(raw.commitment, 120),
+      profile: sanitizeText(raw.profile, 300),
+      timezone: sanitizeText(raw.timezone, 80),
+      sourcePage: sanitizeText(window.location.pathname, 120),
+      submittedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    if (!payload.fullName || payload.fullName.length < 2) {
+      throw new Error('Invalid full name');
+    }
+
+    if (!validEmail(payload.email)) {
+      throw new Error('Invalid email');
+    }
+
+    if (!validPhone(payload.phone)) {
+      throw new Error('Invalid phone number');
+    }
+
+    if (!payload.challenge || payload.challenge.length < 10) {
+      throw new Error('Invalid challenge');
+    }
+
+    return payload;
+  };
+
   if (form && submitBtn) {
     submitBtn.addEventListener('click', async () => {
       if (!form.reportValidity()) return;
@@ -79,15 +139,15 @@
 
       try {
         const formData = new FormData(form);
-        const payload = {
-          ...Object.fromEntries(
-            Array.from(formData.entries()).map(([key, value]) => [
-              key,
-              (value || '').toString().trim()
-            ])
-          ),
-          submittedAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
+
+        const honeypot = sanitizeText(formData.get('companyWebsite'));
+        if (honeypot) {
+          form.reset();
+          successNote?.removeAttribute('hidden');
+          return;
+        }
+
+        const payload = buildPayload(formData);
 
         await firestore.collection('form').add(payload);
         form.reset();
